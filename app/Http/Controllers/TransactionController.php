@@ -47,6 +47,11 @@ class TransactionController extends Controller
 
         $product = Product::find($request->product_id);
 
+        if ($request->qty > $product->stock) {
+            return redirect()->route('kasir.transaction.add')
+                             ->with('error', 'Quantity is more than stock.');
+        }
+
         $transaction = new Transaction();
         $transaction->transaction_number = 'TRX-' . uniqid();
         $transaction->product_name = $product->product_name;
