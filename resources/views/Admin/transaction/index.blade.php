@@ -1,12 +1,14 @@
 @extends('layouts.master')
 @section('content')
 
-<div class="mt-16">
-    <div class="flex justify-start mb-4 mt-10">
-        <input type="text" id="search" class="h-10 px-4 w-60 border rounded-md" placeholder="Search">
+<div>
+    <div class="flex justify-between mt-6">
+        <h1 class="mt-10 text-black font-medium text-2xl py-2  drop-shadow-lg">Transaction List</h1>
+        <div class="flex justify-start mb-4 mt-10">
+            <input type="text" id="search" class="h-10 px-4 w-60 border rounded-md" placeholder="Search">
+        </div>
     </div>
-    <h1 class="font-medium text-2xl">Transaction List</h1>
-<div class="overflow-x-auto bg-white rounded-lg shadow-lg mt-8">
+<div class="overflow-x-auto bg-white rounded-lg shadow-lg mt-2">
     <table class="min-w-full leading-normal text-center">
         <thead>
             <tr class="bg-[#272626] text-white">

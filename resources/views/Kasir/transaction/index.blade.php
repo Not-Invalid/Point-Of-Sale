@@ -15,10 +15,26 @@
     </script>
 @endif
 
-<div class="flex justify-end mb-4 mt-10">
-    <a href="#" class="bg-red-600 text-white px-4 font-medium text-base py-2 rounded-lg drop-shadow-lg" data-modal-target="add" data-modal-toggle="add">
-        Add Transaction
-    </a>
+@if(session('error'))
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                confirmButtonColor: "#3085d6",
+                text: '{{ session('error') }}'
+            });
+        });
+    </script>
+@endif
+
+<div class="flex justify-between mt-8">
+    <div class="flex justify-start mb-4 mt-10">
+        <input type="text" id="search" class="h-10 px-4 w-60 border rounded-md" placeholder="Search">
+    </div>
+    <div class="flex justify-end mb-4 mt-10">
+        <a href="#" class="bg-red-600 text-white px-4 font-medium text-base py-2 rounded-lg drop-shadow-lg" data-modal-target="add" data-modal-toggle="add">Add Transaction</a>
+    </div>
 </div>
 
 <div class="overflow-x-auto bg-white rounded-lg shadow-lg">
@@ -144,6 +160,7 @@
 </div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="{{ asset('js/search.js') }}"></script>
 
 <script>
     $(document).ready(function() {
