@@ -28,7 +28,7 @@ class UserController extends Controller
             'email' => 'required|email|unique:users,email',
             'password' => 'required|string|min:8',
             'role' => 'required|in:Admin,Kasir',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'user_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'address' => 'nullable|string|max:255',
         ]);
 
@@ -39,12 +39,12 @@ class UserController extends Controller
         $user->role = $request->role;
         $user->address = $request->address;
 
-        if ($request->hasFile('user_image')) {
-            $image = $request->file('user_image');
-            $imageName = time() . '_' . $image->getClientOriginalName();
-            $image->move(public_path('user_image'), $imageName);
-            $user->user_image = 'user_image/' . $imageName;
-        } else {
+        if($request->hasFile('user_image')){
+            $imageName = time().'.'.$request->product_image->extension();  
+            $request->product_image->move(public_path('user_image'), $imageName);
+            $user->user_image = 'user_image/'.$imageName;
+        }
+        else {
             $user->user_image = 'default/employee.png';
         }
 
@@ -64,7 +64,7 @@ class UserController extends Controller
         $request->validate([
             'username' => 'required',
             'email' => 'required|email|unique:users,email,' . $id,
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'user_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'address' => 'nullable|string|max:255',
             'role' => 'required',
         ]);
@@ -110,8 +110,10 @@ class UserController extends Controller
         return view('profile', compact('user'));
     }
 
-    public function updateProfile(Request $request)
+    public function updateProfile(Request $request, $id)
     {
+        $user = User::findOrFail($id);
+
         $request->validate([
             'username' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email,' . auth()->id(),
@@ -120,6 +122,11 @@ class UserController extends Controller
         ]);
 
         $user = auth()->user();
+
+        if (!$user) {
+            return redirect()->back()->with('error', 'User not authenticated');
+        }
+
         $user->username = $request->username;
         $user->email = $request->email;
         $user->address = $request->address;
@@ -141,8 +148,7 @@ class UserController extends Controller
         if ($user->role == 'Kasir') {
             $redirectTo = route('kasir.dashboard');
         }
-    
-        // Redirect with success message
+
         return redirect($redirectTo)->with('success', 'Profile updated successfully');
     }
 }
