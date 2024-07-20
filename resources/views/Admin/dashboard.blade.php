@@ -4,7 +4,7 @@
 
 <style>
     canvas {
-        width: 90rem !important;
+        width: 66rem !important;
         height: 33rem !important;
     }
 </style>
