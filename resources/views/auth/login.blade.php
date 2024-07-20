@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="flex justify-center items-center h-screen">
-    <div class="bg-[#F5f5f5] w-[427px] h-[394px] p-6 rounded-lg border-[0.79px] border-[#c4c4c4]">
+    <div class="bg-[#F5f5f5] w-[427px] h-[360px] p-6 rounded-lg border-[0.79px] border-[#c4c4c4]">
         <div class="text-center mb-6">
             <h2 class="font-semibold text-3xl leading-10">Login</h2>
         </div>
