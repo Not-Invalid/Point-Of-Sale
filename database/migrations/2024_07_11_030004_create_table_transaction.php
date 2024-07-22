@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('transaction', function (Blueprint $table) {
             $table->string('transaction_number', 255)->primary();
-            $table->unsignedBigInteger('product_id')->index(); 
+            $table->string('product_name', 255); 
             $table->unsignedBigInteger('id_brand')->index();
             $table->unsignedBigInteger('id_category')->index();
             $table->integer('qty');
@@ -24,7 +24,6 @@ return new class extends Migration
             
             $table->foreign('id_brand')->references('id')->on('brands')->onDelete('cascade');
             $table->foreign('id_category')->references('id')->on('categories')->onDelete('cascade');
-            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
         });
     }
 
