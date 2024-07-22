@@ -24,6 +24,8 @@
             <tr>
                 <th>No</th>
                 <th>Product</th>
+                <th>Brands</th>
+                <th>Category</th>
                 <th>Quantity</th>
             </tr>
         </thead>
@@ -32,11 +34,13 @@
                 <tr>
                     <td>{{ $loop->iteration }}</td>
                     <td>{{ $transaction->product_name }}</td>
+                    <td>{{ $transaction->brand->brand_name }}</td>
+                    <td>{{ $transaction->category->category_name }}</td>
                     <td>{{ $transaction->qty }}</td>
                 </tr>
             @endforeach
             <tr>
-                <td colspan="2" style="text-align: center;"><strong>Total Barang Terjual</strong></td>
+                <td colspan="4" style="text-align: center;"><strong>Total Barang Terjual</strong></td>
                 <td><strong>{{ $totalQty }}</strong></td>
             </tr>
         </tbody>
