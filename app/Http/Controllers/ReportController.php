@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Transaction;
+use App\Models\Brand;
+use App\Models\Category;
 use Barryvdh\DomPDF\Facade\Pdf;
 
 class ReportController extends Controller
@@ -11,6 +13,8 @@ class ReportController extends Controller
     public function downloadSalesReport()
 {
     $transactions = Transaction::all();
+    $brand = Brand::all();
+    $categories = Category::all();
 
     $totalQty = $transactions->sum('qty');
 
@@ -32,7 +36,7 @@ class ReportController extends Controller
         $totalIncome = $transactions->sum('total');
 
         $data = [
-            'title' => 'Laporan Penjualan',
+            'title' => 'Laporan Pemasukan',
             'date' => date('m/d/Y'),
             'transactions' => $transactions,
             'totalIncome' => $totalIncome
