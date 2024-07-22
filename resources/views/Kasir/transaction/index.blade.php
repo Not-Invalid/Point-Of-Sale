@@ -51,7 +51,7 @@
                 <th class="px-5 py-3 border-b border-gray-200 text-center text-xs font-semibold tracking-wider">Tools</th>
             </tr>
         </thead>
-        <tbody class="text-center">
+        <tbody class="text-center" id="transactions-table-body">
             @foreach($transactions as $transaction)
             <tr class="border-b border-gray-200">
                 <td class="px-5 py-5 bg-white text-sm">{{ $transaction->transaction_number }}</td>
@@ -163,6 +163,10 @@
 <script src="{{ asset('js/search.js') }}"></script>
 
 <script>
+    function formatRupiah(angka) {
+        return 'Rp ' + new Intl.NumberFormat('id-ID', { style: 'decimal', minimumFractionDigits: 0 }).format(angka);
+    }
+
     $(document).ready(function() {
         $('#product_id').change(function() {
             var selectedOption = $(this).find('option:selected');
@@ -172,14 +176,14 @@
 
             $('#brand').val(brand);
             $('#category').val(category);
-            $('#unit_price').val(price);
+            $('#unit_price').val(formatRupiah(price));
         });
 
         $('#qty').on('input', function() {
-            var unitPrice = $('#unit_price').val();
+            var unitPrice = $('#unit_price').val().replace(/\D/g, '');
             var qty = $(this).val();
             var total = unitPrice * qty;
-            $('#total').val(total);
+            $('#total').val(formatRupiah(total));
         });
     });
 </script>
