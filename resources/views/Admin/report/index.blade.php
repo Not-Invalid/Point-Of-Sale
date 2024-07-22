@@ -26,7 +26,7 @@
             <i class="fa-solid fa-dollar-sign fa-2x text-green-600"></i>
         </div>
         <div>
-            <div class="text-black font-semibold">Total Pemasukan</div>
+            <div class="text-black font-semibold">Report Pemasukan</div>
             <a href="{{ route('download.income.report') }}">
                 <div class="text-sm font-bold text-red-700">
                     <span><i class="fa-solid fa-download text-green-500 mx-auto"></i></span> Download
