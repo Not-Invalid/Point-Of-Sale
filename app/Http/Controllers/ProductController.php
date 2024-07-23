@@ -11,6 +11,9 @@ class ProductController extends Controller
 {
     public function index(Request $request)
     {
+        $selectedCurrency = session('selectedCurrency', 'IDR');
+        $exchangeRates = session('exchangeRates', []);
+        
         $products = Product::with('brand', 'categories')->orderBy('id', 'DESC')->paginate(10);
         $brands = Brand::all();
         $categories = Category::all();
@@ -20,8 +23,21 @@ class ProductController extends Controller
             $products->where('product_name', 'like', '%' . $search . '%');
         }
 
-        return view('admin.products.index', compact('products', 'brands', 'categories'));
+        return view('admin.products.index', compact('products', 'brands', 'categories', 'selectedCurrency', 'exchangeRates'));
+    }
 
+    public function show($id)
+    {
+        $selectedCurrency = session('selectedCurrency', 'IDR');
+        $exchangeRates = session('exchangeRates', []);
+
+        $product = Product::with(['brand', 'categories'])->find($id);
+
+        if (!$product) {
+            return redirect()->route('admin.products.index')->with('error', 'Product not found.');
+        }
+
+        return view('admin.products.detail', compact('product', 'selectedCurrency', 'exchangeRates'));
     }
 
     public function store(Request $request)
