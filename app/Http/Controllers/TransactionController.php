@@ -10,25 +10,45 @@ class TransactionController extends Controller
 {
     public function index(Request $request)
     {
+        $currency = $request->session()->get('selectedCurrency', 'IDR');
+        $exchangeRates = $request->session()->get('exchangeRates', []);
+        
+        $rate = $exchangeRates[$currency] ?? 1;
+
         $transactions = Transaction::orderBy('created_at', 'DESC');
 
         if ($request->has('search')) {
             $search = $request->query('search');
             $transactions->where('transaction_number', 'like', '%' . $search . '%');
         }
-    
+
         $transactions = $transactions->paginate(10);
         $products = Product::all();
-        return view('kasir.transaction.index', compact('transactions', 'products'));
 
+        foreach ($transactions as $transaction) {
+            $transaction->unit_price = $transaction->unit_price * $rate;
+            $transaction->total = $transaction->total * $rate;
+        }
+
+        return view('kasir.transaction.index', compact('transactions', 'products', 'currency'));
     }
 
     public function indexAdmin()
     {
+        $currency = session('selectedCurrency', 'IDR');
+        $exchangeRates = session('exchangeRates', []);
+        
+        $rate = $exchangeRates[$currency] ?? 1;
+
         $transactions = Transaction::orderBy('created_at', 'DESC')->paginate(10);
         $products = Product::all();
-        return view('admin.transaction.index', compact('transactions', 'products'));
 
+        foreach ($transactions as $transaction) {
+            $transaction->unit_price = $transaction->unit_price * $rate;
+            $transaction->total = $transaction->total * $rate;
+        }
+
+        return view('admin.transaction.index', compact('transactions', 'products', 'currency'));
     }
 
     public function add()
@@ -49,13 +69,17 @@ class TransactionController extends Controller
 
         if ($request->qty > $product->stock) {
             return redirect()->route('kasir.transaction.add')
-                             ->with('error', 'Quantity is more than stock.');
+                                ->with('error', 'Quantity is more than stock.');
         }
+
+        $currency = session('selectedCurrency', 'IDR');
+        $exchangeRates = session('exchangeRates', []);
+        $rate = $exchangeRates[$currency] ?? 1;
 
         $transaction = new Transaction();
         $transaction->transaction_number = 'TRX-' . uniqid();
         $transaction->product_name = $product->product_name;
-        $transaction->unit_price = $product->unit_price;
+        $transaction->unit_price = $product->unit_price * $rate;
         $transaction->id_brand = $product->id_brand;
         $transaction->id_category = $product->id_category;
         $transaction->qty = $request->qty;
