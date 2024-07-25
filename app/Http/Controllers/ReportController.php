@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Transaction;
+use App\Models\Product;
 use App\Models\Brand;
 use App\Models\Category;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -48,28 +49,32 @@ class ReportController extends Controller
     }
 
     public function invoice(Request $request)
-    {
-        $transactionNumber = $request->query('transaction_number');
+{
+    $products = Product::all();
+    $transactionNumber = $request->query('transaction_number');
 
-        $transaction = Transaction::where('transaction_number', $transactionNumber)->first();
+    $transaction = Transaction::where('transaction_number', $transactionNumber)->first();
 
-        if (!$transaction) {
-            return redirect()->back()->with('error', 'Transaction not found');
-        }
-
-        $invoiceData = [
-            'invoiceId' => 'INV' . str_pad($transaction->id, 6, 'Crg000', STR_PAD_LEFT),
-            'transactionDate' => $transaction->created_at->format('d-m-Y'),
-            'productName' => $transaction->product_name,
-            'quantity' => $transaction->qty,
-            'unitPrice' => $transaction->unit_price,
-            'total' => $transaction->total
-        ];
-
-        $pdf = PDF::loadView('pdf.invoice', compact('invoiceData'));
-
-        return $pdf->stream('invoice.pdf');
+    if (!$transaction) {
+        return redirect()->back()->with('error', 'Transaction not found');
     }
+
+    $invoiceData = [
+        'invoiceId' => 'INV' . str_pad($transaction->id, 6, 'Crg000', STR_PAD_LEFT),
+        'transactionDate' => $transaction->created_at->format('d-m-Y'),
+        'productName' => $transaction->product_name,
+        'quantity' => $transaction->qty,
+        'unitPrice' => $transaction->unit_price,
+        'total' => $transaction->total,
+        'id_brand' => $transaction->brand->brand_name, 
+        'id_category' => $transaction->category->category_name
+    ];
+
+    $pdf = PDF::loadView('pdf.invoice', compact('invoiceData'));
+
+    return $pdf->stream('invoice.pdf');
+}
+
 
 
 }
