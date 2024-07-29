@@ -14,16 +14,16 @@ return new class extends Migration
         Schema::create('transaction', function (Blueprint $table) {
             $table->string('transaction_number', 255)->primary();
             $table->string('product_name', 255); 
-            $table->unsignedBigInteger('id_brand')->index();
-            $table->unsignedBigInteger('id_category')->index();
+            $table->string('id_brand', 255)->index();
+            $table->string('id_category', 255)->index();
             $table->integer('qty');
             $table->decimal('unit_price', 10, 2);
             $table->decimal('total', 10, 2);
             $table->timestamps();
 
             
-            $table->foreign('id_brand')->references('id')->on('brands')->onDelete('cascade');
-            $table->foreign('id_category')->references('id')->on('categories')->onDelete('cascade');
+            $table->foreign('id_brand')->references('brand_id')->on('brand')->onDelete('cascade');
+            $table->foreign('id_category')->references('category_id')->on('categories')->onDelete('cascade');
         });
     }
 
