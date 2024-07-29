@@ -26,12 +26,10 @@ class AuthController extends Controller
 
             $role = Auth::user()->role;
             if ($role === 'Admin') {
-                return redirect()->route('admin.dashboard');
+                return redirect()->route('admin.dashboard')->with('success', 'You have successfully logged in');
             } elseif ($role === 'Kasir') {
-                return redirect()->route('kasir.dashboard');
+                return redirect()->route('kasir.dashboard')->with('success', 'You have successfully logged in');
             }
-
-            return redirect()->intended('dashboard');
         }
 
         return back()->withErrors([
@@ -47,6 +45,6 @@ class AuthController extends Controller
 
         $request->session()->regenerateToken();
 
-        return redirect('/');
+        return redirect('/')->with('You have logged out');
     }
 }
