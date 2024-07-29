@@ -11,19 +11,19 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('product', function (Blueprint $table) {
-            $table->id();
+        Schema::create('products', function (Blueprint $table) {
+            $table->string('product_id', 255)->primary();
             $table->string('product_name')->nullable();
             $table->string('desc_product');
             $table->integer('stock');
             $table->decimal('unit_price', 10, 2);
-            $table->unsignedBigInteger('id_brand')->index();
-            $table->unsignedBigInteger('id_category')->index();
-            $table->string('product_image');
+            $table->string('id_brand')->index();
+            $table->string('id_category')->index();
+            $table->string('product_image')->nullable();
             $table->timestamps();
 
-            $table->foreign('id_brand')->references('id')->on('brand')->onDelete('cascade');
-            $table->foreign('id_category')->references('id')->on('categories')->onDelete('cascade');
+            $table->foreign('id_brand')->references('brand_id')->on('brand')->onDelete('cascade');
+            $table->foreign('id_category')->references('category_id')->on('categories')->onDelete('cascade');
         });
     }
 
@@ -32,11 +32,11 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('product', function (Blueprint $table) {
+        Schema::table('products', function (Blueprint $table) {
             $table->dropForeign(['id_brand']);
             $table->dropForeign(['id_category']);
         });
 
-        Schema::dropIfExists('product');
+        Schema::dropIfExists('products');
     }
 };
