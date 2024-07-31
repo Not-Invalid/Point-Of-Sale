@@ -10,6 +10,7 @@ class Product extends Model
     use HasFactory;
 
     protected $fillable = [
+        'product_id',
         'product_name',
         'desc_product',
         'stock',
@@ -20,6 +21,9 @@ class Product extends Model
     ];
 
     protected $table = 'products';
+    protected $primaryKey = 'product_id';
+    public $incrementing = false; 
+    protected $keyType = 'string'; 
 
     public function brand()
     {
