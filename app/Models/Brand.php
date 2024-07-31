@@ -10,11 +10,13 @@ class Brand extends Model
     use HasFactory;
 
     protected $fillable = [
+        'brand_id',
         'brand_name',
         'brand_image'
     ];
 
     protected $table = 'brand';
-
-    
+    protected $primaryKey = 'brand_id';
+    public $incrementing = false; 
+    protected $keyType = 'string'; 
 }
