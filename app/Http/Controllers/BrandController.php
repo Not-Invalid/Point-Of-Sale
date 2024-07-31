@@ -13,9 +13,25 @@ class BrandController extends Controller
         $brands = Brand::orderBy('brand_id', 'DESC')->paginate(10);
         if ($request->has('search')) {
             $search = $request->query('search');
-            $brands->where('brand_name', 'like', '%' . $search . '%');
+            $brands->where('brand_id', 'like', '%' . $search . '%')->orWhere('brand_name', 'like', '%' . $search . '%');
         }
         return view('admin.brand.index', compact('brands'));
+    }
+
+    public function show(Request $request, $brand_id)
+    {
+        $brand = Brand::all()->find($brand_id);
+        if (!$brand) {
+            return redirect()->route('admin.brand.index')->with('error', 'Brand not found.');
+        }
+
+        return view('admin.brand.show', compact('brand'));
+    }
+
+    public function add()
+    {
+        $brands = Brand::all();
+        return view('admin.brand.create', compact('brands'));
     }
 
     public function store(Request $request)
@@ -49,14 +65,7 @@ class BrandController extends Controller
 
         return redirect()->route('admin.brand.index')->with('success', 'Brand added successfully');
     }
-
-    public function edit($brand_id)
-    {
-        $brands = Brand::orderBy('brand_id', 'DESC')->get();
-        $brand = Brand::where('brand_id', $brand_id)->firstOrFail();
-        return view('admin.brand.index', compact('brands', 'brand'));
-    }
-
+    
     public function update(Request $request, $brand_id)
     {
         $request->validate([
