@@ -9,37 +9,52 @@ use App\Models\Transaction;
 class DashboardController extends Controller
 {
     public function indexAdmin()
-{
-    $totalProducts = Product::count();
-    $totalTransactions = Transaction::count();
-    $totalIncome = Transaction::sum('total');
-    $income = $totalIncome;
+    {
+        $totalProducts = Product::count();
+        $totalTransactions = Transaction::count();
+        $totalIncome = Transaction::sum('total');
 
-    $months = [];
-    $transactionData = [];
+        $currency = session('selectedCurrency', 'IDR');
 
-    $transactionsPerMonth = Transaction::selectRaw('YEAR(created_at) as year, MONTH(created_at) as month, COUNT(*) as data_count')
-        ->groupBy('year', 'month')
-        ->orderBy('year')
-        ->orderBy('month')
-        ->get();
+        // $exchangeRates = session('exchangeRates', []);
+        // $rate = $exchangeRates[$selectedCurrency] ?? 1;
 
-    foreach ($transactionsPerMonth as $transaction) {
+        // $formattedIncome = $totalIncome * $rate;
 
-        $monthName = date('F', mktime(0, 0, 0, $transaction->month, 1));
-        $months[] = $monthName;
-        $transactionData[] = $transaction->data_count;
+        $income = formatCurrency($totalIncome, $currency);
+
+        $months = [];
+        $transactionData = [];
+
+        $transactionsPerMonth = Transaction::selectRaw('YEAR(created_at) as year, MONTH(created_at) as month, COUNT(*) as data_count')
+            ->groupBy('year', 'month')
+            ->orderBy('year')
+            ->orderBy('month')
+            ->get();
+
+        foreach ($transactionsPerMonth as $transaction) {
+            $monthName = date('F', mktime(0, 0, 0, $transaction->month, 1));
+            $months[] = $monthName;
+            $transactionData[] = $transaction->data_count;
+        }
+
+        return view('admin.dashboard', compact('totalProducts', 'totalTransactions', 'income', 'months', 'transactionData', 'currency'));
     }
-
-    return view('admin.dashboard', compact('totalProducts', 'totalTransactions', 'income', 'months', 'transactionData'));
-}
 
     public function indexKasir()
     {
         $totalTransactions = Transaction::count();
         $totalIncome = Transaction::sum('total');
-        $income = $totalIncome;
 
-        return view('kasir.dashboard', compact( 'totalTransactions', 'income'));
+        $currency = session('selectedCurrency', 'IDR');
+
+        // $exchangeRates = session('exchangeRates', []);
+        // $rate = $exchangeRates[$selectedCurrency] ?? 1;
+
+        // $formattedIncome = $totalIncome * $rate;
+
+        $income = formatCurrency($totalIncome, $currency);
+
+        return view('kasir.dashboard', compact('totalTransactions', 'income', 'currency'));
     }
 }
