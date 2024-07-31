@@ -13,11 +13,27 @@ class CategoryController extends Controller
 
         if ($request->has('search')) {
             $search = $request->query('search');
-            $categories->where('category_name', 'like', '%' . $search . '%');
+            $categories->where('category_id', 'like', '%' . $search . '%') ->orWhere('category_name', 'like', '%' . $search . '%');
         }
 
         $categories = $categories->paginate(10);
         return view('admin.category.index', compact('categories'));
+    }
+
+    public function show(Request $request, $category_id)
+    {
+        $categories = Category::all()->find($category_id);
+        if (!$categories) {
+            return redirect()->route('admin.category.index')->with('error', 'Category not found.');
+        }
+
+        return view('admin.category.show', compact('categories'));
+    }
+
+    public function add()
+    {
+        $categories = Category::all();
+        return view('admin.category.create', compact('categories'));
     }
 
     public function store(Request $request)
