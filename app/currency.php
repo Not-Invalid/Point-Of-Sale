@@ -1,13 +1,13 @@
 <?php
 
-if (!function_exists('convertToSelectedCurrency')) {
-    function convertToSelectedCurrency($value, $exchangeRates)
-    {
-        $selectedCurrency = session('selectedCurrency', 'IDR');
-        $rate = $exchangeRates[$selectedCurrency] ?? 1;
-        return $value * $rate;
-    }
-}
+// if (!function_exists('convertToSelectedCurrency')) {
+//     function convertToSelectedCurrency($value, $exchangeRates)
+//     {
+//         $selectedCurrency = session('selectedCurrency', 'IDR');
+//         $rate = $exchangeRates[$selectedCurrency] ?? 1;
+//         return $value * $rate;
+//     }
+// }
 
 if (!function_exists('formatCurrency')) {
     function formatCurrency($value, $currencyCode)
@@ -27,6 +27,6 @@ if (!function_exists('formatCurrency')) {
         ];
 
         $symbol = $currencySymbols[$currencyCode] ?? '';
-        return $symbol . number_format($value, 2);
+        return $symbol . ' ' . number_format($value, 2);
     }
 }
