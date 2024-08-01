@@ -75,7 +75,7 @@ class TransactionController extends Controller
         $products = Product::find($request->product_id);
 
         if ($request->qty > $products->stock) {
-            return redirect()->route('transaction-create')
+            return redirect()->route('transaction.create')
                                 ->with('error', 'Quantity is more than stock.');
         }
 
