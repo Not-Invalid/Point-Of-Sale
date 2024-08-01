@@ -11,7 +11,7 @@ use Barryvdh\DomPDF\Facade\Pdf;
 
 class ReportController extends Controller
 {
-    public function downloadSalesReport()
+    public function ProductReport()
 {
     $transactions = Transaction::all();
     $brand = Brand::all();
@@ -20,60 +20,74 @@ class ReportController extends Controller
     $totalQty = $transactions->sum('qty');
 
     $data = [
-        'title' => 'Laporan Penjualan',
+        'title' => 'Product Report',
         'date' => date('m/d/Y'),
         'transactions' => $transactions,
         'totalQty' => $totalQty
     ];
 
-    $pdf = PDF::loadView('pdf.sales_report', $data);
-    return $pdf->stream('sales_report.pdf');
+    $pdf = PDF::loadView('pdf.product_report', $data)->setPaper('A4');
+    return $pdf->stream('product_report.pdf');
 }
 
-    public function downloadIncomeReport()
+    public function salesReport(Request $request)
     {
+        $currency = $request->session()->get('selectedCurrency', 'IDR');
+
         $transactions = Transaction::all();
+        $brand = Brand::all();
+        $categories = Category::all();
 
         $totalIncome = $transactions->sum('total');
 
         $data = [
-            'title' => 'Laporan Pemasukan',
+            'title' => 'Sales Report',
             'date' => date('m/d/Y'),
             'transactions' => $transactions,
             'totalIncome' => $totalIncome
         ];
 
-        $pdf = PDF::loadView('pdf.income_report', $data);
+        $pdf = PDF::loadView('pdf.sales_report', $data)->setPaper('A4');
 
-        return $pdf->stream('income_report.pdf');
+        return $pdf->stream('sales_report.pdf');
     }
 
     public function invoice(Request $request)
-{
-    $products = Product::all();
-    $transactionNumber = $request->query('transaction_number');
+    {
+        $currency = $request->session()->get('selectedCurrency', 'IDR');
 
-    $transaction = Transaction::where('transaction_number', $transactionNumber)->first();
 
-    if (!$transaction) {
-        return redirect()->back()->with('error', 'Transaction not found');
+        $products = Product::all();
+        $transactionNumber = $request->query('transaction_number');
+
+        $transaction = Transaction::where('transaction_number', $transactionNumber)->first();
+
+        if (!$transaction) {
+            return redirect()->back()->with('error', 'Transaction not found');
+        }
+
+        $transactionParts = explode('/', $transactionNumber);
+        $datePart = $transactionParts[1] . '/' . $transactionParts[2] . '/' . $transactionParts[3];
+        $transactionNumberPart = $transactionParts[4];
+
+        $invoiceNumber = 'INV/' . $datePart . '/' . $transactionNumberPart;
+
+        $invoiceData = [
+            'invoiceId' => $invoiceNumber,
+            'transactionDate' => $transaction->created_at->format('d-m-Y'),
+            'productName' => $transaction->product_name,
+            'quantity' => $transaction->qty,
+            'unitPrice' => $transaction->unit_price, session('selectedCurrency', 'IDR'),
+            'total' => $transaction->total, session('selectedCurrency', 'IDR'),
+            'id_brand' => $transaction->brand->brand_name,
+            'id_category' => $transaction->category->category_name
+        ];
+
+        $pdf = PDF::loadView('pdf.invoice', compact('invoiceData'))->setPaper('A4');
+
+        return $pdf->stream('invoice.pdf');
     }
 
-    $invoiceData = [
-        'invoiceId' => 'INV' . str_pad($transaction->id, 6, 'Crg000', STR_PAD_LEFT),
-        'transactionDate' => $transaction->created_at->format('d-m-Y'),
-        'productName' => $transaction->product_name,
-        'quantity' => $transaction->qty,
-        'unitPrice' => $transaction->unit_price,
-        'total' => $transaction->total,
-        'id_brand' => $transaction->brand->brand_name, 
-        'id_category' => $transaction->category->category_name
-    ];
-
-    $pdf = PDF::loadView('pdf.invoice', compact('invoiceData'));
-
-    return $pdf->stream('invoice.pdf');
-}
 
 
 
