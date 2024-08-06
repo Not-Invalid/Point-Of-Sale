@@ -82,6 +82,7 @@ class ReportController extends Controller
             'id_brand' => $transaction->brand->brand_name,
             'id_category' => $transaction->category->category_name
         ];
+        
 
         $pdf = PDF::loadView('pdf.invoice', compact('invoiceData'))->setPaper('A4');
 
