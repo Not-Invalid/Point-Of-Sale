@@ -2,6 +2,20 @@
 
 @section('content')
 
+@if(session('success'))
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            Swal.fire({
+                icon: 'success',
+                title: 'Success',
+                confirmButtonColor: "#3085d6",
+                text: '{{ session('success') }}'
+            });
+        });
+    </script>
+@endif
+
+
 <h1 class="font-medium text-2xl mt-10">Dashboard</h1>
 
 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-5">
@@ -23,13 +37,13 @@
         <div class="flex justify-between items-center">
             <div>
                 <h2 class="text-gray-500 text-sm font-medium">Total Pemasukan</h2>
-                <p class="text-3xl font-bold text-gray-900">{{ formatRupiah($income)}}</p>
+                <p class="text-3xl font-bold text-gray-900">{{$income}}</p>
             </div>
             <div class="bg-yellow-100 rounded-xl h-16 w-16 flex justify-center items-center">
                 <i class="fa-solid fa-dollar-sign text-yellow-600 text-3xl"></i>
             </div>
         </div>
     </div>
+</div>
+
 @endsection
-
-
