@@ -19,6 +19,7 @@ return new class extends Migration
             $table->enum('role', ['Admin', 'Kasir']);
             $table->string('address',255);
             $table->string('user_image')->nullable();
+            $table->timestamps();
         });
         
         Schema::create('sessions', function (Blueprint $table) {
