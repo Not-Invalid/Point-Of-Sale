@@ -12,6 +12,7 @@
     <table class="min-w-full leading-normal text-center">
         <thead>
             <tr class="bg-[#272626] text-white">
+                <th class="px-5 py-3 border-b border-gray-200 text-center text-xs font-semibold tracking-wider">Transaction Date</th>
                 <th class="px-5 py-3 border-b border-gray-200 text-center text-xs font-semibold tracking-wider">Transaction Number</th>
                 <th class="px-5 py-3 border-b border-gray-200 text-center text-xs font-semibold tracking-wider">Product Name</th>
                 <th class="px-5 py-3 border-b border-gray-200 text-center text-xs font-semibold tracking-wider">Brand</th>
@@ -24,13 +25,14 @@
         <tbody class="text-center" id="transactions-table-body">
             @foreach($transactions as $transaction)
             <tr class="border-b border-gray-200">
+                <td class="px-5 py-5 bg-white text-sm">{{ $transaction->created_at->format('d-m-Y') }}</td>
                 <td class="px-5 py-5 bg-white text-sm">{{ $transaction->transaction_number }}</td>
                 <td class="px-5 py-5 bg-white text-sm">{{ $transaction->product_name }}</td> 
                 <td class="px-5 py-5 bg-white text-sm">{{ $transaction->brand->brand_name }}</td> 
-                <td class="px-5 py-5 bg-white text-sm">{{ $transaction->category->category_name }}</td> 
-                <td class="px-5 py-5 bg-white text-sm">{{ $transaction->qty }}</td>
-                <td class="px-5 py-5 bg-white text-sm">{{ formatRupiah($transaction->unit_price) }}</td>
-                <td class="px-5 py-5 bg-white text-sm">{{ formatRupiah($transaction->total) }}</td>      
+                <td class="px-5 py-5 bg-white text-sm">{{ $transaction->category->category_name }}</td>
+                <td class="px-5 py-5 bg-white text-sm">{{ $transaction->qty }}</td> 
+                <td class="px-5 py-5 bg-white text-sm">{{ formatCurrency($transaction->unit_price, session('selectedCurrency', 'IDR')) }}</td>
+                <td class="px-5 py-5 bg-white text-sm">{{ formatCurrency($transaction->total, session('selectedCurrency', 'IDR')) }}</td>
             </tr>
             @endforeach
         </tbody>
