@@ -1,9 +1,10 @@
 @extends('layouts.app')
 
 @section('content')
+
 <div class="flex justify-center items-center h-screen">
-    <div class="bg-[#F5f5f5] w-[427px] h-[360px] p-6 rounded-lg border-[0.79px] border-[#c4c4c4]">
-        <div class="text-center mb-6">
+    <div class="bg-[#F5f5f5] w-[427px] h-[362px] p-6 rounded-lg border-[0.79px] border-[#c4c4c4]">
+        <div class="text-center mb-5">
             <h2 class="font-semibold text-3xl leading-10">Login</h2>
         </div>
         <form method="POST" action="{{ route('login.post') }}" class="space-y-6">
@@ -15,6 +16,15 @@
                     <i class="far fa-eye-slash cursor-pointer" id="togglePassword" onclick="togglePasswordVisibility('password')"></i>
                 </span>
             </div>
+            @if ($errors->any())
+                <div class="text-sm text-red-500">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
             <button type="submit" class="w-full h-[48px] bg-[#eb2929] text-white py-[8px] px-[24px] rounded-xl hover:bg-red-500 -tracking-tighter">Login</button>
         </form>
         
