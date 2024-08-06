@@ -8,8 +8,8 @@
             <i class="fas fa-box fa-2x text-green-500"></i>
         </div>
         <div>
-            <div class="text-black font-semibold">Report Penjualan</div>
-            <a href="{{ route('download.sales.report') }}">
+            <div class="text-black font-semibold">Product Report</div>
+            <a href="{{ route('product_report') }}">
                 <div class="text-sm font-bold text-red-700">
                     <span><i class="fa-solid fa-download text-green-500 mx-auto"></i></span> Download
                 </div>
@@ -26,8 +26,8 @@
             <i class="fa-solid fa-dollar-sign fa-2x text-green-600"></i>
         </div>
         <div>
-            <div class="text-black font-semibold">Report Pemasukan</div>
-            <a href="{{ route('download.income.report') }}">
+            <div class="text-black font-semibold"> Sales Report</div>
+            <a href="{{ route('sales_report') }}">
                 <div class="text-sm font-bold text-red-700">
                     <span><i class="fa-solid fa-download text-green-500 mx-auto"></i></span> Download
                 </div>
