@@ -5,11 +5,14 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Transaction;
+use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
     public function indexAdmin()
     {
+
+        $user = Auth::user(); 
         $totalProducts = Product::count();
         $totalTransactions = Transaction::count();
         $totalIncome = Transaction::sum('total');
@@ -38,7 +41,7 @@ class DashboardController extends Controller
             $transactionData[] = $transaction->data_count;
         }
 
-        return view('admin.dashboard', compact('totalProducts', 'totalTransactions', 'income', 'months', 'transactionData', 'currency'));
+        return view('admin.dashboard', compact('totalProducts', 'totalTransactions', 'income', 'months', 'transactionData', 'currency', 'user'));
     }
 
     public function indexKasir()
