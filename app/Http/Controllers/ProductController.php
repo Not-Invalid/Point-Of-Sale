@@ -101,7 +101,6 @@ class ProductController extends Controller
         $request->validate([
             'product_name' => 'required|unique:products,product_name,' . $product_id . ',product_id',
             'desc_product' => 'required',
-            'stock' => 'required|integer',
             'unit_price' => 'required|numeric',
             'id_brand' => 'required|exists:brand,brand_id',
             'id_category' => 'required|exists:categories,category_id',
@@ -111,7 +110,6 @@ class ProductController extends Controller
         $product = Product::where('product_id', $product_id)->firstOrFail();
         $product->product_name = $request->product_name;
         $product->desc_product = $request->desc_product;
-        $product->stock = $request->stock;
         $product->unit_price = $request->unit_price;
         $product->id_brand = $request->id_brand;
         $product->id_category = $request->id_category;
