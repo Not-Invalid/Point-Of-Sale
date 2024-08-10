@@ -20,7 +20,7 @@
         <input type="text" id="search" class="h-10 px-4 w-60 border rounded-md" placeholder="Search">
     </div>
     <div class="flex justify-end mb-4 mt-10">
-        <a href="{{ route('category.create')}}" class="bg-red-600 text-white px-4 font-medium text-sm py-2 rounded-lg drop-shadow-lg flex sm:items-center">Add Category</a>
+        <a href="{{ route('category.create')}}" class="bg-red-600 text-white flex items-center px-4 font-medium text-xs sm:text-sm md:text-base py-1 sm:py-2 rounded-lg drop-shadow-lg">Add Category</a>
     </div>
 </div>
 <div class="overflow-x-auto bg-white rounded-lg shadow-lg">

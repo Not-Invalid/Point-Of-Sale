@@ -1,13 +1,13 @@
 @extends('layouts.master')
 
 @section('content')
-<div class="" style="margin: 50px">
+<div class="mt-10">
     <div class=" w-full h-full p-6 bg-transparent">
         <form  action="{{ route('admin.user.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
         <div class="flex justify-between">
                 <h1 class="text-2xl font-semibold">Add New User</h1>
-                <div>
+                <div class="flex justify-between space-x-1">
                     <a href="{{ route ('admin.user.index')}}" class="border-2  px-3 py-2  text-sm rounded-2xl">Cancel</a>                
                     <button type="submit" class="bg-[#eb2929] px-3 py-2 text-white text-sm rounded-2xl hover:bg-red-600">Save</button>
                 </div>

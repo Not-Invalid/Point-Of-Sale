@@ -3,7 +3,7 @@
 
 <div>
     <div class="flex justify-between mt-6">
-        <h1 class="mt-10 text-black font-medium text-2xl py-2  drop-shadow-lg">Transaction List</h1>
+        <h1 class="mt-10 text-black font-medium text-xs sm:text-sm md:text-xl py-2  drop-shadow-lg ">Transaction List</h1>
         <div class="flex justify-start mb-4 mt-10">
             <input type="text" id="search" class="h-10 px-4 w-60 border rounded-md" placeholder="Search">
         </div>
