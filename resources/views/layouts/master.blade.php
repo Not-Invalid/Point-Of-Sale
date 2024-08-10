@@ -123,7 +123,7 @@
 
                 <li class="p-4 rounded-md hover:bg-red-600 hover:text-white flex items-center justify-between cursor-pointer" id="stock-management-toggle">
                     <div>
-                        <i class="fa-solid fa-clipboard mx-3"></i>
+                        <i class="fa-solid fa-file-circle-check mx-3"></i>
                         Stock Management
                     </div>
                     <span>
@@ -131,10 +131,10 @@
                     </span>
                 </li>
                 <ul class="space-y-2 ml-8 hidden" id="stock-management-menu">
-                    <a href="{{ route('admin.stock.index') }}" class="block mb-2">
-                        <li class="p-2 rounded-md hover:bg-red-600 hover:text-white  {{ request()->routeIs('admin.stock.index') ? 'bg-red-600 text-white' : '' }}">
-                            <i class="fa-solid fa-truck-ramp-box mx-3"></i>
-                            Incoming Stock
+                    <a href="{{ route('admin.receivingNotes.index') }}" class="block mb-2">
+                        <li class="p-2 rounded-md hover:bg-red-600 hover:text-white  {{ request()->routeIs('admin.receivingNotes.index') ? 'bg-red-600 text-white' : '' }}">
+                            <i class="fa-solid fa-clipboard-list mx-3"></i>
+                            Receiving Notes
                         </li>
                     </a>
                 </ul>
@@ -151,7 +151,7 @@
                     </li>
                 </a>
                 <a href="{{ route('admin.report') }}" class="block mb-2">
-                    <li class="p-4 rounded-md hover:bg-red-600 hover:text-white flex items-center justify-between  {{ request()->routeIs('admin.report.index') ? 'bg-red-600 text-white' : '' }}">
+                    <li class="p-4 rounded-md hover:bg-red-600 hover:text-white flex items-center justify-between  {{ request()->routeIs('admin.report') ? 'bg-red-600 text-white' : '' }}">
                         <div>
                             <i class="fa-solid fa-file mx-3"></i>
                             Report
@@ -244,7 +244,7 @@
             var stockManagementIcon = document.getElementById('stock-management-icon');
     
             if ([
-                '{{ route('admin.stock.index') }}',
+                '{{ route('admin.receivingNotes.index') }}',
             ].includes(window.location.href)) {
                 stockManagementMenu.classList.remove('hidden');
                 stockManagementIcon.classList.remove('fa-chevron-right');
