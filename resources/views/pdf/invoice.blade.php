@@ -40,11 +40,11 @@
             <td>{{ $invoiceData['id_brand'] }}</td>
             <td>{{ $invoiceData['id_category'] }}</td>
             <td>{{ $invoiceData['quantity'] }}</td>
-            <td>{{ formatRupiah($invoiceData['unitPrice']) }}</td>
+            <td>{{ formatCurrency($invoiceData['unitPrice'], session('selectedCurrency', 'IDR')) }}</td>
         </tr>
         <tr>
-            <td colspan="4" style="text-align:right;">Total</td>
-            <td>{{ formatRupiah($invoiceData['total']) }}</td>
+            <td colspan="4" style="text-align:center; font-weight:600">Total</td>
+            <td>{{ formatCurrency($invoiceData['total'], session('selectedCurrency', 'IDR')) }}</td>
         </tr>
     </table>
 </body>
