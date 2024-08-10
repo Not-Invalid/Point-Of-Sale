@@ -25,7 +25,7 @@
             "Database\\Seeders\\": "database/seeders/"
         },
         "files": [
-            "app/rupiah.php"
+            "app/currency.php"
         ]
     },
 
