@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 @section('content')
-<div class="" style="margin: 50px">
+<div class="mt-10">
     <div class=" w-full h-full p-6 bg-transparent">
         <form action="{{ route('admin.category.update', $categories->category_id) }}" method="POST" enctype="multipart/form-data">
             @csrf
