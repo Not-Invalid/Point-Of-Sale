@@ -28,28 +28,37 @@ class ReceivingNotesController extends Controller
     {
         $request->validate([
             'input_date' => 'required|date',
-            'product_id' => 'required|string|exists:products,product_id',
-            'quantity' => 'required|integer',
+            'products' => 'required|array',
+            'products.*' => 'required|string|exists:products,product_id',
+            'quantity' => 'required|array',
+            'quantity.*' => 'required|integer|min:1',
             'description' => 'nullable|string',
+            'remarks_references' => 'nullable|string',
         ]);
-
-        $product = Product::findOrFail($request->product_id);
-
-        $receivingNote = new ReceivingNotes([ 
-            'input_date' => $request->input_date,
-            'product_id' => $request->product_id,
-            'id_brand' => $product->id_brand,
-            'id_category' => $product->id_category,
-            'quantity' => $request->quantity,
-            'description' => $request->description,
-        ]);
-        $receivingNote->save(); 
-
-        $product->stock += $request->quantity;
-        $product->save();
-
-        return redirect()->route('admin.receivingNotes.index')->with('success', 'Receiving note added successfully'); 
+    
+        foreach ($request->products as $index => $product_id) {
+            $product = Product::findOrFail($product_id);
+    
+            $quantity = $request->quantity[$index];
+    
+            $receivingNote = new ReceivingNotes([ 
+                'input_date' => $request->input_date,
+                'product_id' => $product_id,
+                'id_brand' => $product->id_brand,
+                'id_category' => $product->id_category,
+                'quantity' => $quantity,
+                'description' => $request->description,
+                'remarks_references' => $request->remarks_references,
+            ]);
+            $receivingNote->save(); 
+    
+            $product->stock += $quantity;
+            $product->save();
+        }
+    
+        return redirect()->route('admin.receivingNotes.index')->with('success', 'Receiving notes added successfully');
     }
+    
 
     public function destroy($id)
     {
