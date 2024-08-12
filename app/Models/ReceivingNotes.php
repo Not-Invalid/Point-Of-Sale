@@ -9,7 +9,7 @@ class ReceivingNotes extends Model
 {
     use HasFactory;
 
-    protected $table = 'stock_management';
+    protected $table = 'receiving_notes';
 
     protected $fillable = [
         'input_date',
@@ -18,6 +18,7 @@ class ReceivingNotes extends Model
         'id_category',
         'quantity',
         'description',
+        'remarks_references',
     ];
 
     public function product()
