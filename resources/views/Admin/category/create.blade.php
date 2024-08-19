@@ -14,7 +14,7 @@
         </div>
 
         <div class="mt-10 border-2 p-6 rounded-lg w-full bg-[#f9f9f9] shadow-2xl border-none ">
-            <label for="category_name" class="block mb-2 text-sm font-normal mt-4">Category Name</label>
+            <label for="category_name" class="block mb-2 text-sm font-semibold mt-4">Category Name</label>
             <input type="text" name="category_name" id="category_name" class="bg-gray-300 text-sm focus:ring-slate-400 rounded-lg border-none px-4 w-full" placeholder="Category Name" required="">
         </div>
     </form>

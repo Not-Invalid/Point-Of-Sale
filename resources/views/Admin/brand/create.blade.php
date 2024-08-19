@@ -25,7 +25,7 @@
                         </label>
                     </div>
                 </div>
-                <label for="brand_name" class="block mb-2 text-sm font-normal mt-4">Brand Name</label>
+                <label for="brand_name" class="block mb-2 text-sm font-semibold mt-4">Brand Name</label>
                 <input type="text" name="brand_name" id="brand_name" class="bg-gray-300 text-sm focus:ring-slate-400 rounded-lg border-none px-4 w-full" placeholder="Brand Name" required="">
             </div>
         </form>
