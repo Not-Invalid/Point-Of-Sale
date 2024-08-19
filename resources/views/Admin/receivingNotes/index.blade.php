@@ -19,7 +19,7 @@
         <input type="text" id="search" class="h-10 px-4 w-60 border rounded-md" placeholder="Search">
     </div>
     <div class="flex justify-end mb-4 mt-10">
-        <a href="{{ route('receivingNotes.create')}}" class="bg-red-600 text-white px-4 font-medium text-base py-2 rounded-lg drop-shadow-lg">Add Stock</a>
+        <a href="{{ route('receivingNotes.create')}}" class="bg-red-600 text-white px-4 font-medium text-base py-2 rounded-lg drop-shadow-lg">Add Receiving Notes</a>
     </div>
 </div>
 
@@ -29,26 +29,27 @@
             <tr class="bg-[#272626] text-white">
                 <th class="px-5 py-3 border-b border-gray-200 text-center text-xs font-semibold tracking-wider">No</th>
                 <th class="px-5 py-3 border-b border-gray-200 text-center text-xs font-semibold tracking-wider">Date</th>
+                <th class="px-5 py-3 border-b border-gray-200 text-center text-xs font-semibold tracking-wider">References</th>
                 <th class="px-5 py-3 border-b border-gray-200 text-center text-xs font-semibold tracking-wider">Products Name</th>
-                <th class="px-5 py-3 border-b border-gray-200 text-center text-xs font-semibold tracking-wider">Brands</th>
-                <th class="px-5 py-3 border-b border-gray-200 text-center text-xs font-semibold tracking-wider">Category</th>
                 <th class="px-5 py-3 border-b border-gray-200 text-center text-xs font-semibold tracking-wider">Stock</th>
-                <th class="px-5 py-3 border-b border-gray-200 text-center text-xs font-semibold tracking-wider">Keterangan</th>
+                <th class="px-5 py-3 border-b border-gray-200 text-center text-xs font-semibold tracking-wider">Description</th>
                 <th class="px-5 py-3 border-b border-gray-200 text-center text-xs font-semibold tracking-wider">Tools</th>
             </tr>
         </thead>
-        <tbody class="text-center" id="stok-management-table-body">
+        <tbody class="text-center" id="receivingnotes-table-body">
             @foreach ($receivingNotes as $receivingNote)
             <tr class="border-b border-gray-200">
                 <td class="px-5 py-5 bg-white text-sm">{{ $loop->iteration }}</td>
                 <td class="px-5 py-5 bg-white text-sm">{{ date('d-m-Y', strtotime($receivingNote->input_date)) }}</td>
+                <td class="px-5 py-5 bg-white text-sm">{{ $receivingNote->references }}</td>
                 <td class="px-5 py-5 bg-white text-sm">{{ $receivingNote->product->product_name }}</td>
-                <td class="px-5 py-5 bg-white text-sm">{{ $receivingNote->brand->brand_name }}</td>
-                <td class="px-5 py-5 bg-white text-sm">{{ $receivingNote->category->category_name }}</td>
                 <td class="px-5 py-5 bg-white text-sm">{{ $receivingNote->quantity }}</td>
                 <td class="px-5 py-5 bg-white text-sm">{{ $receivingNote->description }}</td>
                 <td class="px-5 py-5 bg-white text-sm flex space-x-2 items-center justify-center">
-                <form action="{{ route('receivingNotes.destroy', $receivingNote->id) }}" method="POST" class="delete-form">
+                    <a href="{{route ('receiving-notes', $receivingNote->id)}}"  class="text-grey-500 hover:text-grey-700 text-lg">
+                        <i class="fa-solid fa-file-pdf"></i>
+                    </a>
+                    <form action="{{ route('receivingNotes.destroy', $receivingNote->id) }}" method="POST" class="delete-form">
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="text-red-500 hover:text-red-700 text-lg"><i class="fas fa-trash-alt"></i></button>
