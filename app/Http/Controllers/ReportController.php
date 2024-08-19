@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Transaction;
 use App\Models\Product;
+use App\Models\ReceivingNotes;
 use App\Models\Brand;
 use App\Models\Category;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -89,7 +90,16 @@ class ReportController extends Controller
         return $pdf->stream('invoice.pdf');
     }
 
+    public function receivingNotes($id)
+    {
+        $receivingNotes = ReceivingNotes::where('id', $id)->get(); 
 
+        $data = [
+            'receivingNotes' => $receivingNotes,
+        ];
 
+        $pdf = Pdf::loadView('pdf.receiving_notes', $data);
+        return $pdf->stream('receiving_note.pdf');
+    }    
 
 }
