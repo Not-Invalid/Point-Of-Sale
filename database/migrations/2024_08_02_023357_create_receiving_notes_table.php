@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('receiving_notes', function (Blueprint $table) {
             $table->id();
             $table->date('input_date');
+            $table->string('receiver');
             $table->string('product_id');
             $table->string('id_brand');
             $table->string('id_category');
