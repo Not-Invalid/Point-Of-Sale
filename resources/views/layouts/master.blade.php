@@ -53,7 +53,7 @@
                         <div>
                             <button type="button" class="flex text-sm bg-gray-800 rounded-full focus:ring-2 focus:ring-gray-500" aria-expanded="false" data-dropdown-toggle="dropdown-user">
                                 <span class="sr-only">Open user menu</span>
-                                <img class="w-8 h-8 rounded-full" src="{{ asset(Auth::user()->image) }}" alt="User Image">
+                                <img class="w-8 h-8 rounded-full" src="{{ Auth::user()->image ? asset(Auth::user()->image) : 'https://www.pngkey.com/png/full/115-1150152_default-profile-picture-avatar-png-green.png' }}" alt="User Image">
                             </button>
                         </div>
                         <div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 text-black rounded shadow" id="dropdown-user">
@@ -119,8 +119,13 @@
                             Product
                         </li>
                     </a>
+                    <a href="{{ route('admin.warehouse.index') }}" class="block mb-2">
+                        <li class="p-2 rounded-md hover:bg-red-600 hover:text-white  {{ request()->routeIs('admin.warehouse.index') ? 'bg-red-600 text-white' : '' }}">
+                            <i class="fa-solid fa-warehouse mx-3"></i>
+                            Warehouse
+                        </li>
+                    </a>
                 </ul>
-
                 <li class="p-4 rounded-md hover:bg-red-600 hover:text-white flex items-center justify-between cursor-pointer" id="stock-management-toggle">
                     <div>
                         <i class="fa-solid fa-file-circle-check mx-3"></i>
@@ -206,7 +211,8 @@
             if ([
                 '{{ route('admin.brand.index') }}',
                 '{{ route('admin.category.index') }}',
-                '{{ route('admin.products.index') }}'
+                '{{ route('admin.products.index') }}',
+                '{{ route('admin.warehouse.index') }}'
             ].includes(window.location.href)) {
                 masterDataMenu.classList.remove('hidden');
                 masterDataIcon.classList.remove('fa-chevron-right');
