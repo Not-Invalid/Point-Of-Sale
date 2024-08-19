@@ -12,13 +12,14 @@ class ReceivingNotes extends Model
     protected $table = 'receiving_notes';
 
     protected $fillable = [
+        'receiver',
         'input_date',
         'product_id',
         'id_brand',
         'id_category',
         'quantity',
         'description',
-        'remarks_references',
+        'references',
     ];
 
     public function product()
