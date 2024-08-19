@@ -53,7 +53,7 @@
                         <div>
                             <button type="button" class="flex text-sm bg-gray-800 rounded-full focus:ring-2 focus:ring-gray-500" aria-expanded="false" data-dropdown-toggle="dropdown-user">
                                 <span class="sr-only">Open user menu</span>
-                                <img class="w-8 h-8 rounded-full" src="{{ asset(Auth::user()->image) }}" alt="User Image">
+                                <img class="w-8 h-8 rounded-full" src="{{ Auth::user()->image ? asset(Auth::user()->image) : 'https://www.pngkey.com/png/full/115-1150152_default-profile-picture-avatar-png-green.png' }}" alt="User Image">
                             </button>
                         </div>
                         <div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 text-black rounded shadow" id="dropdown-user">
