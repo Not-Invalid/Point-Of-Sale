@@ -21,5 +21,6 @@ document.addEventListener('DOMContentLoaded', function() {
     filterTable('brand-table-body', [1, 2]);  
     filterTable('category-table-body', [1, 2]); 
     filterTable('transactions-table-body', [1,2]); 
-    filterTable('stok-management-table-body', [1]); 
+    filterTable('receivingnotes-table-body', [1]); 
+    filterTable('warehouse-table-body', [1,2]); 
 });
