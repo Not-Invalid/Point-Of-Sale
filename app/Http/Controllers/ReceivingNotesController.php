@@ -27,28 +27,32 @@ class ReceivingNotesController extends Controller
     public function store(Request $request)
     {
         $request->validate([
+            'receiver' => 'nullable|string',
             'input_date' => 'required|date',
             'products' => 'required|array',
             'products.*' => 'required|string|exists:products,product_id',
             'quantity' => 'required|array',
             'quantity.*' => 'required|integer|min:1',
-            'description' => 'nullable|string',
-            'remarks_references' => 'nullable|string',
+            'description' => 'required|array',
+            'description.*' => 'nullable|string',
+            'references' => 'nullable|string',
         ]);
     
         foreach ($request->products as $index => $product_id) {
             $product = Product::findOrFail($product_id);
     
             $quantity = $request->quantity[$index];
+            $description = $request->description[$index];
     
             $receivingNote = new ReceivingNotes([ 
+                'receiver' => $request->receiver,
                 'input_date' => $request->input_date,
                 'product_id' => $product_id,
                 'id_brand' => $product->id_brand,
                 'id_category' => $product->id_category,
                 'quantity' => $quantity,
-                'description' => $request->description,
-                'remarks_references' => $request->remarks_references,
+                'description' => $description,
+                'references' => $request->references,
             ]);
             $receivingNote->save(); 
     
