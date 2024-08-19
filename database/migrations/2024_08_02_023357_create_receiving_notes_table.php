@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('id_category');
             $table->integer('quantity');
             $table->string('description')->nullable();
-            $table->string('remarks_references')->nullable();
+            $table->string('references')->nullable();
             $table->timestamps();
 
             $table->foreign('product_id')->references('product_id')->on('products')->onDelete('cascade');
